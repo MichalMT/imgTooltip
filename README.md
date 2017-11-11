@@ -1,7 +1,6 @@
 # imgTooltip
 Create tooltips that contains images instead of text.
 
-DEMO at [this link]()
 
 ## How to use
 ### Basics
