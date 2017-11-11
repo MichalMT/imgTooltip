@@ -125,7 +125,7 @@ var imgTooltip = (function(){
 			this.tooltipA.style.height = this.height + "px";
 			this.tooltipA.style.width = this.width + "px";
 			this.tooltipA.style.borderRadius = this.radius + "px";
-			this.tooltipA.style.backgroundColor = this.color;
+			this.tooltipA.style.boxShadow = '0 0 8px #111';
 			this.tooltipA.style.opacity = 0;
 			this.tooltipA.style.visibility = "hidden";
 
@@ -140,7 +140,9 @@ var imgTooltip = (function(){
 			var positionLeft = this.triggerElement.offsetLeft + this.triggerElement.offsetWidth/2 - this.width/2 + "px";
 			
 			// put tooltip below trigger element if there is not enough space above trigger element
-			if(this.triggerElement.offsetTop-positionTop<2 && window.innerHeight-this.triggerElement.offsetTop-this.triggerElement.height-5-this.height>0)
+			if(this.triggerElement.offsetTop-positionTop<2 && 
+			   window.innerHeight-this.triggerElement.offsetTop-this.triggerElement.height-5-this.height>0
+			  )
 			{
 				positionTop = this.triggerElement.offsetTop + this.triggerElement.height + 5 + "px";
 			}
