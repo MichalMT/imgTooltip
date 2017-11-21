@@ -8,7 +8,7 @@ Create tooltips that contains images instead of text.
 imgTooltip.init({
   tooltips: [
     {
-      el: 'classOfElement',
+      el: 'classOfTriggerElement',
       img: 'image.jpg'
     }
   ]
@@ -26,6 +26,7 @@ imgTooltip.init({
 |height|80|height of tooltip (in px)|
 |width|80|width of tooltip (in px)|
 |radius|15|border radius *|
+|boxShadow|"0 0 8px #111"||
 |href||adds link (href attribute) to tooltip \**|
 |custom||custom function ***|
 
@@ -46,11 +47,12 @@ example with all options
 imgTooltip.init({
   tooltips: [
     {
-      el: 'classOfElement',
+      el: 'classOfTriggerElement',
       img: 'image.jpg',
       height: 100,
       width: 100,
       radius: 50,
+      boxShadow: '1px 1px 5px #333',
       href: 'www.domain.com/xyz',
       custom: function(){
         this.style.border = 'solid 2px #111';
