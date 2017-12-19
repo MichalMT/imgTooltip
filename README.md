@@ -23,26 +23,20 @@ imgTooltip.init({
 
 ||default|description|
 |---|---|---|
-|height|80|height of tooltip (in px)|
-|width|80|width of tooltip (in px)|
-|radius|15|border radius *|
-|boxShadow|"0 0 8px #111"||
-|href||adds link (href attribute) to tooltip \**|
-|custom||custom function ***|
+|height|80|Height of tooltip (in px)|
+|width|80|Width of tooltip (in px)|
+|radius|15|Border radius.<br>If you use height 80, width 80 and radius 40, tooltip will be circle. If radius will be 0, tooltip will be square.|
+|boxShadow|"0 0 8px #111"|Box shadow around tooltip|
+|bgSize|"cover"|Background size.<br>You can also use for example percentage value. See [this link](https://www.w3schools.com/cssref/css3_pr_background-size.asp) for all accepted values.|
+|bgPosition|"center center"|Background position|
+|bgRepeat|"no-repeat"|Background repeat|
+|href||Adds link (href attribute) to tooltip.<br>If trigger element alredy have href attribute you dont have to specify it. The same attribute will be automatically added to tooltip.|
+|custom||Custom function.<br>In custom function you can make any additional changes. 
+Keyword *'this'* is pointing at tooltip (HTML`<a>`element).|
 
-#### \* radius
-If you use height 80, width 80 and radius 40, tooltip will be circle. If radius will be 0, tooltip will be square.
-
-#### \** href
-If trigger element alredy have href attribute you dont have to specify it. The same attribute will be automatically added to tooltip.
-
-#### *** custom
-In custom function you can make any additional changes.<br>
-Tooltip contains from two HTML elements. Parent `<a>` element with child element `<img>`.<br>
-In custom function, keyword *'this'* is pointing at root element of tooltip (`<a>`).<br>
-You can access `<img>` element with `this.firstChild`.
-
+<br>
 example with all options
+
 ```javascript
 imgTooltip.init({
   tooltips: [
