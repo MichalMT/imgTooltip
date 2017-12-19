@@ -1,7 +1,6 @@
 /**************************************************
 
 imgTooltip
-version: 1.0.0
 author: https://github.com/MichalMT
 
 **************************************************/
@@ -10,9 +9,7 @@ var imgTooltip = (function(){
 	
 	"use strict";
 	
-	// array for storing all objects (tooltips) 
 	var createdTooltips = [];
-	
 	var ins;
 	
 	// initialization
@@ -49,17 +46,21 @@ var imgTooltip = (function(){
 	function Tooltip(options, triggerElement, N){
 		
 		// set options
-		this.height = options.tooltips[N].height || options.height || 80;
-		this.width = options.tooltips[N].width || options.width || 80;
-		this.radius = options.tooltips[N].radius || options.radius || 15;
-		this.href = options.tooltips[N].href;
-		this.imgUrl = options.tooltips[N].img;
+		this.height     = options.tooltips[N].height     || options.height     || 80;
+		this.width      = options.tooltips[N].width      || options.width      || 80;
+		this.radius     = options.tooltips[N].radius     || options.radius     || 15;
+		this.boxShadow  = options.tooltips[N].boxShadow  || options.boxShadow  || "0 0 8px #111";
+		this.bgSize     = options.tooltips[N].bgSize     || options.bgSize     || "cover";
+		this.bgRepeat   = options.tooltips[N].bgRepeat   || options.bgRepeat   || "no-repeat";
+		this.bgPosition = options.tooltips[N].bgPosition || options.bgPosition || "center center";
+		this.href       = options.tooltips[N].href       || options.href;
+		this.imgUrl     = options.tooltips[N].img;
 		
 		this.triggerElement = triggerElement;
 		
 		// create tooltip and bind events on tooltip and trigger element
-		this.createElements();
-		this.styleElements();
+		this.create();
+		this.style();
 		this.setPosition();
 		this.addEvents();
 		
@@ -96,6 +97,7 @@ var imgTooltip = (function(){
 	
 	// remove all tooltips
 	function remove(){
+		
 		for(ins=0; ins<createdTooltips.length; ins++){
 			document.body.removeChild(createdTooltips[ins].tooltipA);
 		}
@@ -105,10 +107,9 @@ var imgTooltip = (function(){
 	// methods for creating tooltip
 	Tooltip.prototype = {
 
-		createElements: function(){
+		create: function(){
+			
 			this.tooltipA= document.createElement('a');
-			this.tooltipA.innerHTML= "<img src='"+this.imgUrl+"'>";
-			this.tooltipIMG = this.tooltipA.firstChild;
 			if( this.href )
 			{
 				this.tooltipA.setAttribute("href", this.href);
@@ -120,27 +121,28 @@ var imgTooltip = (function(){
 			document.body.appendChild(this.tooltipA);
 		},
 
-		styleElements: function(){
+		style: function(){
+			
 			this.tooltipA.style.position = "absolute";
 			this.tooltipA.style.height = this.height + "px";
 			this.tooltipA.style.width = this.width + "px";
 			this.tooltipA.style.borderRadius = this.radius + "px";
-			this.tooltipA.style.boxShadow = '0 0 8px #111';
+			this.tooltipA.style.boxShadow = this.boxShadow;
 			this.tooltipA.style.opacity = 0;
 			this.tooltipA.style.visibility = "hidden";
-
-			this.tooltipIMG.style.boxSizing = "borderBox";
-			this.tooltipIMG.style.height = this.height + "px";
-			this.tooltipIMG.style.width = this.width + "px";
-			this.tooltipIMG.style.borderRadius = this.radius + "px";
+			this.tooltipA.style.backgroundImage = 'url('+this.imgUrl+')';
+			this.tooltipA.style.backgroundSize = this.bgSize;
+			this.tooltipA.style.backgroundRepeat = this.bgRepeat;
+			this.tooltipA.style.backgroundPosition = this.bgPosition;
 		},
 
 		setPosition: function(){
+			
 			var positionTop = this.triggerElement.offsetTop - this.height - 5 + "px";
 			var positionLeft = this.triggerElement.offsetLeft + this.triggerElement.offsetWidth/2 - this.width/2 + "px";
 			
 			// put tooltip below trigger element if there is not enough space above trigger element
-			if(this.triggerElement.offsetTop-positionTop<2 && 
+			if(this.triggerElement.offsetTop-positionTop<2 &&
 			   window.innerHeight-this.triggerElement.offsetTop-this.triggerElement.height-5-this.height>0
 			  )
 			{
@@ -167,29 +169,27 @@ var imgTooltip = (function(){
 				self.tooltipA.style.visibility = "hidden";
 			}
 
-
 			if (document.addEventListener)
 			{
 				this.triggerElement.addEventListener("mouseover", fadeIn , false);
-				this.tooltipIMG.addEventListener("mouseover", fadeIn , false);
+				this.tooltipA.addEventListener("mouseover", fadeIn , false);
 				this.triggerElement.addEventListener("mouseleave", fadeOut , false);
-				this.tooltipIMG.addEventListener("mouseleave", fadeOut , false);
+				this.tooltipA.addEventListener("mouseleave", fadeOut , false);
 			}
 			else if (document.attachEvent)
 			{
 				this.triggerElement.attachEvent("onmouseover", fadeIn);
-				this.tooltipIMG.attachEvent("onmouseover", fadeIn);
+				this.tooltipA.attachEvent("onmouseover", fadeIn);
 				this.triggerElement.attachEvent("onmouseleave", fadeOut);
-				this.tooltipIMG.attachEvent("onmouseleave", fadeOut);
+				this.tooltipA.attachEvent("onmouseleave", fadeOut);
 			} 
 			else
 			{
 				this.triggerElement.onmouseover = fadeIn;
-				this.tooltipIMG.onmouseover = fadeIn;
+				this.tooltipA.onmouseover = fadeIn;
 				this.triggerElement.onmouseout = fadeOut;
-				this.tooltipIMG.onmouseout = fadeOut;
+				this.tooltipA.onmouseout = fadeOut;
 			}
-			
 		}
 
 	};
