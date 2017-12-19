@@ -21,17 +21,17 @@ imgTooltip.init({
 ### Options
 **el** and **img** are required, but you can use other properties to customize tooltip
 
-||default|description|
-|---|---|---|
+||default value|description|
+|---|---------|---|
 |height|80|Height of tooltip (in px)|
 |width|80|Width of tooltip (in px)|
-|radius|15|Border radius.<br>If you use height 80, width 80 and radius 40, tooltip will be circle. If radius will be 0, tooltip will be square.|
+|radius|15|Border radius.<br>If you use height 80, width 80 and radius 40, tooltip will be circle. <br>If radius will be 0, tooltip will be square.|
 |boxShadow|"0 0 8px #111"|Box shadow around tooltip|
-|bgSize|"cover"|Background size.<br>You can also use for example percentage value. See [this link](https://www.w3schools.com/cssref/css3_pr_background-size.asp) for all accepted values.|
+|bgSize|"cover"|Background size.<br>You can also use for example percentage value. <br>See [this link](https://www.w3schools.com/cssref/css3_pr_background-size.asp) for all accepted values.|
 |bgPosition|"center center"|Background position|
 |bgRepeat|"no-repeat"|Background repeat|
-|href||Adds link (href attribute) to tooltip.<br>If trigger element alredy have href attribute you dont have to specify it. The same attribute will be automatically added to tooltip.|
-|custom||Custom function.<br>In custom function you can make any additional changes. Keyword *'this'* is pointing at tooltip (HTML`<a>`element).|
+|href||Adds link (href attribute) to tooltip.<br>If trigger element alredy have href attribute you dont have to specify it. <br>The same attribute will be automatically added to tooltip.|
+|custom||Custom function.<br>In custom function you can make any additional changes. <br>Keyword *'this'* is pointing at tooltip (HTML`<a>`element).|
 
 ### Example with all options
 
@@ -39,15 +39,18 @@ imgTooltip.init({
 imgTooltip.init({
   tooltips: [
     {
-      el: 'classOfTriggerElement',
-      img: 'image.jpg',
+      el: "classOfTriggerElement",
+      img: "image.jpg",
       height: 100,
       width: 100,
       radius: 50,
-      boxShadow: '1px 1px 5px #333',
-      href: 'www.domain.com/xyz',
+      boxShadow: "1px 1px 5px #333",
+      bgSize: "contain",
+      bgPosition: "top left",
+      bgRepeat: "repeat",
+      href: "www.domain.com/xyz",
       custom: function(){
-        this.style.border = 'solid 2px #111';
+        this.style.border = "solid 2px #111";
       }
     }
   ]
