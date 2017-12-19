@@ -31,11 +31,9 @@ imgTooltip.init({
 |bgPosition|"center center"|Background position|
 |bgRepeat|"no-repeat"|Background repeat|
 |href||Adds link (href attribute) to tooltip.<br>If trigger element alredy have href attribute you dont have to specify it. The same attribute will be automatically added to tooltip.|
-|custom||Custom function.<br>In custom function you can make any additional changes. 
-Keyword *'this'* is pointing at tooltip (HTML`<a>`element).|
+|custom||Custom function.<br>In custom function you can make any additional changes. Keyword *'this'* is pointing at tooltip (HTML`<a>`element).|
 
-<br>
-example with all options
+### Example with all options
 
 ```javascript
 imgTooltip.init({
