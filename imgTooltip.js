@@ -10,7 +10,6 @@ var imgTooltip = (function(){
 	"use strict";
 	
 	var createdTooltips = [];
-	var ins;
 	
 	// initialization
 	function init(options){
@@ -36,6 +35,7 @@ var imgTooltip = (function(){
 		
 		if(options.custom)
 		{
+			var ins;
 			for(ins=0; ins<createdTooltips.length; ins++){
 				options.custom.call(createdTooltips[ins].tooltipA);
 			}
@@ -65,7 +65,7 @@ var imgTooltip = (function(){
 		this.addEvents();
 		
 		// call custom function (if exists)
-		// "this" is pontinting at <a> (root element of tooltip)
+		// "this" is pontinting at <a> element (tooltip)
 		if(options.tooltips[N].custom)
 		{
 			options.tooltips[N].custom.call(this.tooltipA);
@@ -76,6 +76,8 @@ var imgTooltip = (function(){
 	function handleResize(){
 		
 		function onResize(){
+			
+			var ins;
 			for(ins=0; ins<createdTooltips.length; ins++){
 				createdTooltips[ins].setPosition();
 			}
@@ -98,6 +100,7 @@ var imgTooltip = (function(){
 	// remove all tooltips
 	function remove(){
 		
+		var ins;
 		for(ins=0; ins<createdTooltips.length; ins++){
 			document.body.removeChild(createdTooltips[ins].tooltipA);
 		}
