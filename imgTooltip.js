@@ -19,9 +19,9 @@ var imgTooltip = (function(){
 			
 			var htmlCollection = document.getElementsByClassName(options.tooltips[N].el);
 			if( 
-				options.tooltips[N].el !== undefined &&
+				options.tooltips[N].el  !== undefined &&
 				options.tooltips[N].img !== undefined &&
-				htmlCollection.length > 0 
+				htmlCollection.length    >  0 
 			  )
 			{
 				Array.prototype.forEach.call(htmlCollection, function(triggerElement){
@@ -33,6 +33,8 @@ var imgTooltip = (function(){
 		
 		handleResize();
 		
+		handleTouchScreen();
+		
 		if(options.custom)
 		{
 			var ins;
@@ -40,6 +42,8 @@ var imgTooltip = (function(){
 				options.custom.call(createdTooltips[ins].tooltipA);
 			}
 		}
+		
+
 	}
 	
 	// constructor
@@ -72,6 +76,16 @@ var imgTooltip = (function(){
 		}
 	}
 	
+	// remove all tooltips
+	function remove(){
+		
+		var ins;
+		for(ins=0; ins<createdTooltips.length; ins++){
+			document.body.removeChild(createdTooltips[ins].tooltipA);
+		}
+		createdTooltips = [];
+	}
+	
 	// update position of tooltips on resize
 	function handleResize(){
 		
@@ -97,14 +111,23 @@ var imgTooltip = (function(){
 		}
 	}
 	
-	// remove all tooltips
-	function remove(){
+	function handleTouchScreen(){
 		
-		var ins;
-		for(ins=0; ins<createdTooltips.length; ins++){
-			document.body.removeChild(createdTooltips[ins].tooltipA);
+		function touchFadeOut(e){
+			
+			var ins;
+			for(ins=0; ins<createdTooltips.length; ins++){
+				if(createdTooltips[ins].triggerElement !== e.target)
+				{
+					createdTooltips[ins].tooltipA.style.transition = "opacity .5s, visibility .5s linear";
+					createdTooltips[ins].tooltipA.style.opacity = 0;
+					createdTooltips[ins].tooltipA.style.visibility = "hidden";
+					createdTooltips[ins].triggerElement.style.textDecoration = "none";
+				}
+			}
 		}
-		createdTooltips = [];
+		
+		document.body.addEventListener("touchstart", touchFadeOut, false);
 	}
 	
 	// methods for creating tooltip
@@ -116,43 +139,48 @@ var imgTooltip = (function(){
 			if( this.href )
 			{
 				this.tooltipA.setAttribute("href", this.href);
+				this.tooltipA.setAttribute("target", "_blank");
 			}
 			else if( this.triggerElement.hasAttribute("href") )
 			{
 				this.tooltipA.setAttribute("href", this.triggerElement.getAttribute("href") );
+				this.tooltipA.setAttribute("target", "_blank");
 			}
 			document.body.appendChild(this.tooltipA);
 		},
 
 		style: function(){
 			
-			this.tooltipA.style.position = "absolute";
-			this.tooltipA.style.height = this.height + "px";
-			this.tooltipA.style.width = this.width + "px";
-			this.tooltipA.style.borderRadius = this.radius + "px";
-			this.tooltipA.style.boxShadow = this.boxShadow;
-			this.tooltipA.style.opacity = 0;
-			this.tooltipA.style.visibility = "hidden";
-			this.tooltipA.style.backgroundImage = 'url('+this.imgUrl+')';
-			this.tooltipA.style.backgroundSize = this.bgSize;
-			this.tooltipA.style.backgroundRepeat = this.bgRepeat;
-			this.tooltipA.style.backgroundPosition = this.bgPosition;
+			var s = this.tooltipA.style;
+			
+			s.position           = "absolute";
+			s.height             = this.height + "px";
+			s.width              = this.width + "px";
+			s.borderRadius       = this.radius + "px";
+			s.boxShadow          = this.boxShadow;
+			s.opacity            = 0;
+			s.visibility         = "hidden";
+			s.backgroundImage    = 'url('+this.imgUrl+')';
+			s.backgroundSize     = this.bgSize;
+			s.backgroundRepeat   = this.bgRepeat;
+			s.backgroundPosition = this.bgPosition;
 		},
 
 		setPosition: function(){
 			
-			var positionTop = this.triggerElement.offsetTop - this.height - 5 + "px";
+			var positionTop  = this.triggerElement.offsetTop - this.height - 5 + "px";
 			var positionLeft = this.triggerElement.offsetLeft + this.triggerElement.offsetWidth/2 - this.width/2 + "px";
 			
 			// put tooltip below trigger element if there is not enough space above trigger element
-			if(this.triggerElement.offsetTop-positionTop<2 &&
+			if(
+			   this.triggerElement.offsetTop-positionTop<2 &&
 			   window.innerHeight-this.triggerElement.offsetTop-this.triggerElement.height-5-this.height>0
 			  )
 			{
 				positionTop = this.triggerElement.offsetTop + this.triggerElement.height + 5 + "px";
 			}
 			
-			this.tooltipA.style.top = positionTop;
+			this.tooltipA.style.top  = positionTop;
 			this.tooltipA.style.left = positionLeft;
 		},
 
@@ -160,24 +188,41 @@ var imgTooltip = (function(){
 
 			var self = this;
 
-			function fadeIn(){
+			function fadeIn(e){
 				self.tooltipA.style.transition = "opacity .5s, visibility 0s linear";
 				self.tooltipA.style.visibility = "visible";
 				self.tooltipA.style.opacity = 1;
 			}
 
-			var fadeOut = function(){
+			function fadeOut(){
 				self.tooltipA.style.transition = "opacity .5s, visibility .5s linear";
 				self.tooltipA.style.opacity = 0;
 				self.tooltipA.style.visibility = "hidden";
 			}
+			
+			function touchFadeIn(e){
+				
+				if(self.tooltipA.style.visibility == "hidden")
+				{
+					e.preventDefault();
+					self.tooltipA.style.transition = "opacity .5s, visibility 0s linear";
+					self.tooltipA.style.visibility = "visible";
+					self.tooltipA.style.opacity = 1;
+					self.triggerElement.style.textDecoration = "underline";
+				}
+				else
+				{
+					self.triggerElement.style.textDecoration = "none";
+				}
+			}
 
 			if (document.addEventListener)
 			{
+				this.triggerElement.addEventListener("touchstart", touchFadeIn, false);
 				this.triggerElement.addEventListener("mouseover", fadeIn , false);
 				this.tooltipA.addEventListener("mouseover", fadeIn , false);
 				this.triggerElement.addEventListener("mouseleave", fadeOut , false);
-				this.tooltipA.addEventListener("mouseleave", fadeOut , false);
+				this.tooltipA.addEventListener("mouseleave", fadeOut , false);				
 			}
 			else if (document.attachEvent)
 			{
