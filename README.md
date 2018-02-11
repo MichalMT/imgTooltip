@@ -1,6 +1,6 @@
 # imgTooltip
 Create tooltips that contains images instead of text.
-
+See it in action [here](http://img-tooltip.stackstaging.com/).
 
 ## How to use
 
